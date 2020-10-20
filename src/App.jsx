@@ -7,7 +7,7 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setTodos((prevTodos) => [...todos, { title: todoTitle, id: prevTodos.length }]);
+    setTodos((prevTodos) => [...prevTodos, { title: todoTitle, id: prevTodos.length }]);
     setTodoTitle('');
   };
 
