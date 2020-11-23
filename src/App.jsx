@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
+import {
+  arrayOf, number, string, shape, func,
+} from 'prop-types';
+import { connect } from 'react-redux';
+import * as todoActions from './store/actions';
+
 import './App.css';
 
-const App = () => {
-  const [todos, setTodos] = useState([]);
+const App = ({ todos, addTodo }) => {
   const [todoTitle, setTodoTitle] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setTodos((prevTodos) => [...prevTodos, { title: todoTitle, id: prevTodos.length }]);
+    addTodo({ title: todoTitle, id: todos.length });
     setTodoTitle('');
   };
 
@@ -16,9 +21,9 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">Learn Redux</header>
-      <main>
+    <div className="app">
+      <header className="app-header">Learn Redux</header>
+      <main className="app-content">
         <form onSubmit={handleSubmit}>
           <input value={todoTitle} type="text" name="title" onChange={handleOnChange} />
           <button type="submit">Submit</button>
@@ -35,4 +40,20 @@ const App = () => {
   );
 };
 
-export default App;
+App.propTypes = {
+  todos: arrayOf(shape({
+    id: number,
+    title: string,
+  })).isRequired,
+  addTodo: func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  todos: state.todos,
+});
+
+const mapDispatchToProps = {
+  addTodo: todoActions.addTodo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

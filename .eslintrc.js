@@ -4,6 +4,7 @@ module.exports = {
     'airbnb/hooks'
   ],
   globals: {
-    document: true
+    document: true,
+    window: true
   }
 };
